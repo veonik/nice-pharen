@@ -10,15 +10,19 @@
 )
 
 (fn request-get (name)
-  (-> (-> app (get "request")) (get name))
+  (-> app (get "request") (get name))
+)
+
+(fn respond (data)
+  (new Response data)
 )
 
 (local routes (lambda (r)
-  (map-route r "/" (lambda ()
-                  (new Response "Hello world!")))
+  (map-route r "/"
+    (lambda () (respond "Hello world!")))
 
-  (map-route r "/hello/{name}" (lambda ()
-                                  (new Response (. "Hello " (request-get "name") "!"))))
+  (map-route r "/hello/{name}"
+    (lambda () (respond (. "Hello " (request-get "name") "!"))))
 ))
 
 (-> app (set "routes" routes))
