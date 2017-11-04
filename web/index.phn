@@ -6,24 +6,20 @@
 (def app (new Application "prod" TRUE FALSE))
 
 (fn map-route (r route handler)
-  (-> r (map route NULL handler))
-)
+  (-> r (map route NULL handler)))
 
 (fn request-get (name)
-  (-> app (get "request") (get name))
-)
+  (-> app (get "request") (get name)))
 
 (fn respond (data)
-  (new Response data)
-)
+  (new Response data))
 
 (local routes (lambda (r)
   (map-route r "/"
     (lambda () (respond "Hello world!")))
 
   (map-route r "/hello/{name}"
-    (lambda () (respond (. "Hello " (request-get "name") "!"))))
-))
+    (lambda () (respond (. "Hello " (request-get "name") "!"))))))
 
 (-> app (set "routes" routes))
 
